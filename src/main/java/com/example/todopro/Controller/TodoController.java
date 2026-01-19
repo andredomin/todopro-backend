@@ -1,5 +1,6 @@
 package com.example.todopro.Controller;
 
+import com.example.todopro.DTO.ChangeStatusRequest;
 import com.example.todopro.Model.Task;
 import com.example.todopro.Service.TaskService;
 import org.springframework.http.ResponseEntity;
@@ -41,9 +42,11 @@ public class TodoController {
         return service.updateText(id, updatedTask.getText());
     }
 
-
-    @PutMapping("/tasks/{id}/toggle")
-    public Task toggleCompleted(@PathVariable Long id) {
-        return service.toggleCompleted(id);
+    @PatchMapping("/tasks/{id}/status")
+    public Task updateStatus(
+            @PathVariable Long id,
+            @RequestBody ChangeStatusRequest request
+    ) {
+        return service.changeStatus(id, request.getStatus());
     }
 }

@@ -1,6 +1,7 @@
 package com.example.todopro.Service;
 
 import com.example.todopro.Model.Task;
+import com.example.todopro.Model.TaskStatus;
 import com.example.todopro.Repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
@@ -38,12 +39,13 @@ public class TaskService {
         return repo.save(task);
     }
 
-
-    public Task toggleCompleted(Long id) {
+    public Task changeStatus(Long id, TaskStatus newStatus) {
         Task task = repo.findById(id)
-                .orElseThrow(() -> new IllegalStateException("Tarea no encontrada"));
+                .orElseThrow(() -> new RuntimeException("Task no encontrada"));
 
-        task.toggleCompleted();// acciódominion del
+        task.changeStatus(newStatus);
+
         return repo.save(task);
     }
+
 }

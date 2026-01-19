@@ -1,11 +1,6 @@
 package com.example.todopro.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import java.time.LocalDateTime;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "todo")
@@ -17,8 +12,15 @@ public class Task {
 
     private String text;
 
-    private boolean completed = false; // por defecto no completada
-    private LocalDateTime completedAt; // opcional, fecha de completado
+    @Enumerated(EnumType.STRING)
+    private TaskStatus status = TaskStatus.INCOMPLETA;
+
+    public void changeStatus(TaskStatus newStatus) {
+        this.status = newStatus;
+    }
+    public TaskStatus getStatus() {
+        return status;
+    }
 
 
     public Task() {}
@@ -30,24 +32,9 @@ public class Task {
 
     public Long getId() { return id; }
     public String getText() { return text; }
-    public boolean isCompleted() { return completed; }
-    public LocalDateTime getCompletedAt() { return completedAt; }
 
 
     public void setText(String text) {
         this.text = text;
-    }
-
-
-    public void toggleCompleted() {
-        if (this.completed) {
-
-            this.completed = false;
-            this.completedAt = null;
-        } else {
-
-            this.completed = true;
-            this.completedAt = LocalDateTime.now();
-        }
     }
 }
